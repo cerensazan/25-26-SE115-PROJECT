@@ -69,7 +69,22 @@ public class Main {
     }
 
     public static int bestDayOfMonth(int month) {
-      return 1234;
+        if (month < 0 || month >= MONTHS) return -1;
+
+        int bestDay = 1;
+        int max = Integer.MIN_VALUE;
+
+        for (int d = 0; d < DAYS; d++) {
+            int sum = 0;
+            for (int c = 0; c < COMMS; c++) {
+                sum += profits[month][d][c];
+            }
+            if (sum > max) {
+                max = sum;
+                bestDay = d + 1;
+            }
+        }
+        return bestDay;
     }
 
     public static String bestMonthForCommodity(String comm) {
