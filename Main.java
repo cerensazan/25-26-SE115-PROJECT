@@ -140,11 +140,40 @@ public class Main {
     }
 
     public static int daysAboveThreshold(String comm, int threshold) {
-        return 1234;
+        int cIndex = -1;
+        for (int c = 0; c < COMMS; c++) {
+            if (commodities[c].equals(comm)) {
+                cIndex = c;
+                break;
+            }
+        }
+        if (cIndex == -1) return -1;
+
+        int count = 0;
+        for (int m = 0; m < MONTHS; m++) {
+            for (int d = 0; d < DAYS; d++) {
+                if (profits[m][d][cIndex] > threshold) count++;
+            }
+        }
+        return count;
     }
 
     public static int biggestDailySwing(int month) {
-        return 1234;
+        if (month < 0 || month >= MONTHS) return -99999;
+
+        int maxSwing = 0;
+
+        for (int d = 0; d < DAYS - 1; d++) {
+            int today = 0;
+            int next = 0;
+            for (int c = 0; c < COMMS; c++) {
+                today += profits[month][d][c];
+                next += profits[month][d + 1][c];
+            }
+            int diff = Math.abs(today - next);
+            if (diff > maxSwing) maxSwing = diff;
+        }
+        return maxSwing;
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
