@@ -13,6 +13,41 @@ public class Main {
     static int[][][] profits = new int[MONTHS][DAYS][COMMS];
     // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
     public static void loadData() {
+        Scanner sc = null;
+
+        try {
+            for (int m = 0; m < MONTHS; m++) {
+
+                File file = new File("Data_Files/" + months[m] + ".txt");
+                sc = new Scanner(file);
+
+                while (sc.hasNextLine()) {
+                    String line = sc.nextLine();
+                    String[] parts = line.split(",");
+
+                    int day = Integer.parseInt(parts[0]) - 1;
+                    String comm = parts[1];
+                    int value = Integer.parseInt(parts[2]);
+
+                    for (int c = 0; c < COMMS; c++) {
+                        if (commodities[c].equals(comm)) {
+                            profits[m][day][c] = value;
+                            break;
+                        }
+                    }
+                }
+
+                sc.close();
+                sc = null;
+            }
+        } catch (Exception e) {
+            // kural gereği boş
+        } finally {
+            if (sc != null) {
+                sc.close();
+            }
+        }
+
     }
 
     // ======== 10 REQUIRED METHODS (Students fill these) ========
@@ -38,10 +73,10 @@ public class Main {
 
 
     public static int totalProfitOnDay(int month, int day) {
-        if (month < 0 || month > 11 || day < 1 || day > 28) return -99999;
+        if (month < 0 || month >= MONTHS || day < 1 || day > DAYS) return -99999;
 
         int sum = 0;
-        for (int c = 0; c < 5; c++) {
+        for (int c = 0; c < COMMS; c++) {
             sum += profits[month][day - 1][c];
         }
         return sum;
