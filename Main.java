@@ -1,7 +1,7 @@
 // Main.java — Students version
 import java.io.*;
 import java.util.*;
-
+//github:cerensazan
 public class Main {
     static final int MONTHS = 12;
     static final int DAYS = 28;
@@ -14,20 +14,27 @@ public class Main {
     // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
     public static void loadData() {
         Scanner sc = null;
-
         try {
             for (int m = 0; m < MONTHS; m++) {
-
                 File file = new File("Data_Files/" + months[m] + ".txt");
+                if (!file.exists()) continue;
+
                 sc = new Scanner(file);
+
+                if (sc.hasNextLine()) {
+                    sc.nextLine();
+                }
 
                 while (sc.hasNextLine()) {
                     String line = sc.nextLine();
-                    String[] parts = line.split(",");
+                    if (line.trim().isEmpty()) continue;
 
-                    int day = Integer.parseInt(parts[0]) - 1;
-                    String comm = parts[1];
-                    int value = Integer.parseInt(parts[2]);
+                    String[] parts = line.split(",");
+                    if (parts.length < 3) continue;
+
+                    int day = Integer.parseInt(parts[0].trim()) - 1;
+                    String comm = parts[1].trim();
+                    int value = Integer.parseInt(parts[2].trim());
 
                     for (int c = 0; c < COMMS; c++) {
                         if (commodities[c].equals(comm)) {
@@ -38,12 +45,12 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-        } finally {
+        }finally {
             if (sc != null) {
                 sc.close();
             }
+            
         }
-
     }
 
     // ======== 10 REQUIRED METHODS (Students fill these) ========
