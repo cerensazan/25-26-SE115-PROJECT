@@ -36,12 +36,8 @@ public class Main {
                         }
                     }
                 }
-
-                sc.close();
-                sc = null;
             }
         } catch (Exception e) {
-            // kural gereği boş
         } finally {
             if (sc != null) {
                 sc.close();
